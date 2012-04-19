@@ -6,6 +6,16 @@ Think of it like SQL `EXPLAIN`, but for CSS selectors.
 
 ## Usage
 
+``` javascript
+cssExplain("li .item")
+{
+  "parts": ["li", ".item"],
+  "specificity": [0, 1, 1],
+  "category": "class",
+  "score": 6
+}
+```
+
 ## Contributing
 
 
