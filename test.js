@@ -44,18 +44,18 @@ exports.score = {
   },
 
   "over qualified selectors": function(test) {
-    test.equal(cssExplain("ul#top_blue_nav").score, 2);
-    test.equal(cssExplain("form#UserLogin").score, 2);
-    test.equal(cssExplain("button#backButton").score, 2);
-    test.equal(cssExplain(".menu-left#newMenuIcon").score, 2);
+    test.equal(cssExplain("ul#top_blue_nav").score, 3);
+    test.equal(cssExplain("form#UserLogin").score, 3);
+    test.equal(cssExplain("button#backButton").score, 3);
+    test.equal(cssExplain(".menu-left#newMenuIcon").score, 3);
 
     test.done();
   },
 
   "simple": function(test) {
-    test.equal(cssExplain("#footer").score, 0);
-    test.equal(cssExplain(".item").score, 1);
-    test.equal(cssExplain("li").score, 2);
+    test.equal(cssExplain("#footer").score, 1);
+    test.equal(cssExplain(".item").score, 2);
+    test.equal(cssExplain("li").score, 3);
 
     test.done();
   }

@@ -12,6 +12,13 @@
     PSEUDO: /:((?:[\w\u00c0-\uFFFF\-]|\\.)+)(?:\((['"]?)((?:\([^\)]+\)|[^\(\)]*)+)\2\))?/g
   };
 
+  // Internal: Parse CSS selector into parts.
+  //
+  // Adopted from Sizzle.
+  //
+  // selector - CSS selector String.
+  //
+  // Returns an Array of Strings.
   function parse(selector) {
     var m, rest = selector, parts = [];
 
@@ -30,7 +37,11 @@
     return parts;
   }
 
-
+  // Internal: Compute the specificity of a selector.
+  //
+  // parts - Parsed selector Array.
+  //
+  // Returns an 3 tuple Array of Numbers.
   function computeSpecificity(parts) {
     var a = 0, b = 0, c = 0;
 
@@ -57,6 +68,11 @@
     return [a, b, c];
   }
 
+  // Internal: Determine the primary category of a selector.
+  //
+  // parts - Parsed selector Array.
+  //
+  // Returns 'id', 'class', 'tag', or 'universal'.
   function detectCategory(parts) {
     var last = parts[parts.length-1];
     if (last.match(match.ID)) {
@@ -70,6 +86,13 @@
     }
   }
 
+  // Internal: Score the selector efficiency.
+  //
+  // 1 being the most efficient and 10 being the least.
+  //
+  // parts - Parsed selector Array.
+  //
+  // Returns a Number 1 through 10.
   function computeScore(parts) {
     var last = parts[parts.length-1];
 
@@ -105,27 +128,32 @@
       if (last.match(match.ID)) {
         // Over qualified ID
         if (last.match(match.CLASS) || last.match(match.TAG)) {
-          return 2;
+          return 3;
 
         // Basic ID
         } else {
-          return 0;
+          return 1;
         }
 
       // Simple tag
       } else if (last.match(match.TAG)) {
-        return 2;
+        return 3;
 
       // Simple class
       } else if (last.match(match.CLASS)) {
-        return 1;
+        return 2;
 
       } else {
-        return 0;
+        return 1;
       }
     }
   }
 
+  // Public: Explains a CSS selector.
+  //
+  // selector - CSS selector String.
+  //
+  // Returns an Object.
   function cssExplain(selector) {
     var parts       = parse(selector);
     var specificity = computeSpecificity(parts);
