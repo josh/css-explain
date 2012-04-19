@@ -1,0 +1,9 @@
+{
+  "name": "css-explain",
+  "version": "0.1.0",
+  "main": "./css-explain.js",
+  "devDependencies": {
+    "jshint": "latest",
+    "nodeunit": "latest"
+  }
+}
