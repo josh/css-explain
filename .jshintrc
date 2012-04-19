@@ -1,0 +1,6 @@
+{
+  "strict": true,
+  "trailing": true,
+  "node": true,
+  "browser": true
+}
