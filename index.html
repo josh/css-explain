@@ -5,6 +5,17 @@
   <title>CSS Explain</title>
   <link rel="stylesheet" href="styles.css">
   <script src="css-explain.js"></script>
+  <script>
+    (function() {
+      var rules, selector, report, i, len;
+      rules = document.styleSheets[0].cssRules;
+      for (i = 0, len = rules.length; i < len; i++) {
+        selector = rules[i].selectorText;
+        report = cssExplain(selector);
+        console.log(selector, report.score, report.messages)
+      }
+    })();
+  </script>
 </head>
 <body>
   <div class="container">
