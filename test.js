@@ -146,6 +146,8 @@ exports.category = {
 };
 
 exports.specificity = function(test) {
+  test.deepEqual(cssExplain("").specificity, [0, 0, 0]);
+
   test.deepEqual(cssExplain("*").specificity, [0, 0, 0]);
   test.deepEqual(cssExplain("li").specificity, [0, 0, 1]);
   test.deepEqual(cssExplain("li:first-line").specificity, [0, 0, 2]);

@@ -75,7 +75,9 @@
   // Returns 'id', 'class', 'tag', or 'universal'.
   function detectCategory(parts) {
     var last = parts[parts.length-1];
-    if (last.match(match.ID)) {
+    if (!last) {
+      return 'universal';
+    } else if (last.match(match.ID)) {
       return 'id';
     } else if (last.match(match.CLASS)) {
       return 'class';
@@ -99,8 +101,11 @@
     var score = 1;
     var messages = [];
 
+    if (!last) {
+    }
+
     // ID category
-    if (last.match(match.ID)) {
+    else if (last.match(match.ID)) {
       // Check for redundant class name
       if (last.match(match.CLASS)) {
         messages.push("ID is overly qualified by a class name");
