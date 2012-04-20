@@ -4,24 +4,24 @@
   <meta charset="utf-8">
   <title>CSS Explain</title>
   <link rel="stylesheet" href="styles.css">
-  <script src="css-explain.js"></script>
-  <script>
-    (function() {
-      var rules, selector, report, i, len;
-      rules = document.styleSheets[0].cssRules;
-      for (i = 0, len = rules.length; i < len; i++) {
-        selector = rules[i].selectorText;
-        report = cssExplain(selector);
-        console.log(selector, report.score, report.messages)
-      }
-    })();
-  </script>
 </head>
 <body>
   <div class="container">
     <h1>CSS <span>Explain</span></h1>
-    <input type="text" placeholder="li.active strong">
-    <input type="submit" value="Explain It">
+    <form>
+      <input id="selector" type="text" placeholder="li.active strong" autocomplete=off required>
+      <input type="submit" value="Explain It">
+    </form>
+
+    <div id="results" class="hidden">
+      <p><meter id="score" title="score" value=3 min=1 max=10 low=3 high=7 optimum=1>3/10</meter></p>
+      <p>category: <output id="category"></output></p>
+      <p>specificity: [<output id="specificity"></output>]</p>
+      <div id="messages"></div>
+    </div>
   </div>
+
+  <script src="css-explain.js"></script>
+  <script src="explain.js"></script>
 </body>
 </html>
