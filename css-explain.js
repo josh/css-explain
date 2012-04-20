@@ -86,67 +86,95 @@
     }
   }
 
-  // Internal: Score the selector efficiency.
+  // Internal: Analyze and score the selector efficiency.
   //
   // 1 being the most efficient and 10 being the least.
   //
   // parts - Parsed selector Array.
   //
-  // Returns a Number 1 through 10.
-  function computeScore(parts) {
+  // Returns an Object with a score, Number 1 through 10 and
+  // an Array of reason strings.
+  function analyze(parts) {
     var last = parts[parts.length-1];
+    var score = 1;
+    var messages = [];
 
-    // Descendant selectors
-    if (parts.length > 1) {
-      // Child selectors
-      if (parts[parts.length-2] === '>') {
-        if (last.match(match.ID)) {
-          return 3;
-        } else if (last.match(match.CLASS)) {
-          return 5;
-        } else if (last.match(match.TAG)) {
-          return 7;
-        } else {
-          return 9;
-        }
-
-      // Descendant selectors
-      } else {
-        if (last.match(match.ID)) {
-          return 4;
-        } else if (last.match(match.CLASS)) {
-          return 6;
-        } else if (last.match(match.TAG)) {
-          return 8;
-        } else {
-          return 10;
-        }
+    // ID category
+    if (last.match(match.ID)) {
+      // Check for redundant class name
+      if (last.match(match.CLASS)) {
+        messages.push("ID is overly qualified by a class name");
+        score++;
       }
 
-    // Simple selectors
-    } else {
-      if (last.match(match.ID)) {
-        // Over qualified ID
-        if (last.match(match.CLASS) || last.match(match.TAG)) {
-          return 3;
+      // Check for redundant tag name
+      if (last.match(match.TAG)) {
+        messages.push("ID is overly qualified by a tag name");
+        score++;
+      }
 
-        // Basic ID
+      // Check for redundant descendant selectors
+      if (parts.length > 1) {
+        if (parts[parts.length-2] === '>') {
+          messages.push("ID is overly qualified by a child selector");
+          score++;
         } else {
-          return 1;
+          messages.push("ID is overly qualified by a descendant selector");
+          score++;
         }
-
-      // Simple tag
-      } else if (last.match(match.TAG)) {
-        return 3;
-
-      // Simple class
-      } else if (last.match(match.CLASS)) {
-        return 2;
-
-      } else {
-        return 1;
       }
     }
+
+    // Class category
+    else if (last.match(match.CLASS)) {
+      score += 1;
+
+      if (parts.length > 1) {
+        if (parts[parts.length-2] === '>') {
+          messages.push("Uses a child selector with a rightmost class selector");
+          score += 2;
+        } else {
+          messages.push("Uses a descendant selector with a rightmost class selector");
+          score += 4;
+        }
+      }
+    }
+
+    // Tag category
+    else if (last.match(match.TAG)) {
+      score += 2;
+
+      if (parts.length > 1) {
+        if (parts[parts.length-2] === '>') {
+          messages.push("Uses a child selector with a rightmost tag selector");
+          score += 4;
+        } else {
+          messages.push("Uses a descendant selector with a rightmost tag selector");
+          score += 5;
+        }
+      }
+    }
+
+    // Universal category
+    else {
+      score += 3;
+
+      if (parts.length > 1) {
+        if (parts[parts.length-2] === '>') {
+          messages.push("Uses a child selector with a rightmost universal selector");
+          score += 5;
+        } else {
+          messages.push("Uses a descendant selector with a rightmost universal selector");
+          score += 6;
+        }
+      }
+    }
+
+    if (score < 1 || score > 10) {
+      throw "score out of range";
+    }
+
+    return {score: score, messages: messages};
   }
 
   // Public: Explains a CSS selector.
@@ -158,13 +186,14 @@
     var parts       = parse(selector);
     var specificity = computeSpecificity(parts);
     var category    = detectCategory(parts);
-    var score       = computeScore(parts);
+    var analysis    = analyze(parts);
 
     return {
       parts: parts,
       category: category,
       specificity: specificity,
-      score: score
+      score: analysis.score,
+      messages: analysis.messages
     };
   }
 

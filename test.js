@@ -43,11 +43,11 @@ exports.score = {
     test.done();
   },
 
-  "over qualified selectors": function(test) {
-    test.equal(cssExplain("ul#top_blue_nav").score, 3);
-    test.equal(cssExplain("form#UserLogin").score, 3);
-    test.equal(cssExplain("button#backButton").score, 3);
-    test.equal(cssExplain(".menu-left#newMenuIcon").score, 3);
+  "overly qualified selectors": function(test) {
+    test.equal(cssExplain("ul#top_blue_nav").score, 2);
+    test.equal(cssExplain("form#UserLogin").score, 2);
+    test.equal(cssExplain("button#backButton").score, 2);
+    test.equal(cssExplain(".menu-left#newMenuIcon").score, 2);
 
     test.done();
   },
@@ -56,6 +56,56 @@ exports.score = {
     test.equal(cssExplain("#footer").score, 1);
     test.equal(cssExplain(".item").score, 2);
     test.equal(cssExplain("li").score, 3);
+
+    test.done();
+  }
+};
+
+exports.messages = {
+  "descendant selectors with universal selector key": function(test) {
+    test.deepEqual(cssExplain("body *").messages, ["Uses a descendant selector with a rightmost universal selector"]);
+    test.done();
+  },
+
+  "descendant selectors with tag selector key": function(test) {
+    test.deepEqual(cssExplain("#footer h3").messages, ["Uses a descendant selector with a rightmost tag selector"]);
+    test.done();
+  },
+
+  "descendant selectors with class selector key": function(test) {
+    test.deepEqual(cssExplain("li .item").messages, ["Uses a descendant selector with a rightmost class selector"]);
+    test.done();
+  },
+
+  "child selectors with universal selector key": function(test) {
+    test.deepEqual(cssExplain("body > *").messages, ["Uses a child selector with a rightmost universal selector"]);
+    test.done();
+  },
+
+  "child selectors with tag selector key": function(test) {
+    test.deepEqual(cssExplain("#footer > h3").messages, ["Uses a child selector with a rightmost tag selector"]);
+    test.done();
+  },
+
+  "child selectors with class selector key": function(test) {
+    test.deepEqual(cssExplain("#footer > .copyright").messages, ["Uses a child selector with a rightmost class selector"]);
+    test.done();
+  },
+
+  "overly qualified selectors": function(test) {
+    test.deepEqual(cssExplain("button#backButton").messages, ["ID is overly qualified by a tag name"]);
+    test.deepEqual(cssExplain(".menu-left#newMenuIcon").messages, ["ID is overly qualified by a class name"]);
+
+    test.deepEqual(cssExplain(".menu #backButton").messages, ["ID is overly qualified by a descendant selector"]);
+    test.deepEqual(cssExplain(".menu > #backButton").messages, ["ID is overly qualified by a child selector"]);
+
+    test.done();
+  },
+
+  "simple": function(test) {
+    test.deepEqual(cssExplain("#footer").messages, []);
+    test.deepEqual(cssExplain(".item").messages, []);
+    test.deepEqual(cssExplain("li").messages, []);
 
     test.done();
   }
