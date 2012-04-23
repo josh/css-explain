@@ -58,3 +58,32 @@ input[type='text'] {
 #results.hidden {
   visibility: hidden;
 }
+
+#results > meter {
+  width: 100%;
+  height: 2em;
+}
+
+/* Meter Polyfill */
+
+meter > .meter-frame {
+  height: 2em;
+  width: 100%;
+  padding: 2px;
+  border: 1px solid black;
+  background-color: white;
+}
+
+meter > .meter-frame > .meter-bar {
+  height: 2em;
+  border: none;
+  background-color: #ff0;
+}
+
+meter > .meter-frame > .meter-bar.meter-low {
+  background-color: #090;
+}
+
+meter > .meter-frame > .meter-bar.meter-high {
+  background-color: #f00;
+}

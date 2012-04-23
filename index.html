@@ -13,7 +13,12 @@
     </form>
 
     <div id="results" class="hidden">
-      <p><meter id="score" title="score" value=3 min=1 max=10 low=3 high=7 optimum=1>3/10</meter></p>
+      <meter id="score" title="score" value=3 min=1 max=10 low=3 high=7 optimum=1>
+        <div class="meter-frame">
+          <div class="meter-bar">
+          </div>
+        </div>
+      </meter>
       <p>category: <output id="category"></output></p>
       <p>specificity: [<output id="specificity"></output>]</p>
       <div id="messages"></div>

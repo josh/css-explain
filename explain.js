@@ -11,13 +11,32 @@
 
 (function() {
   var $ = function(id) { return document.getElementById(id) },
-     $$ = function(selector) { return document.querySelectorAll(selector) };
+     $$ = function() { return document.querySelectorAll.apply(document, arguments); };
+
+  function renderMeter(el) {
+    var frame = $$('.meter-frame', el)[0],
+        bar   = $$('.meter-bar', el)[0],
+        value = el.value,
+        low   = parseInt(el.getAttribute('low')),
+        high  = parseInt(el.getAttribute('high'));
+
+    if (value > high) {
+      bar.className = "meter-bar meter-high";
+    } else if (value < low) {
+      bar.className = "meter-bar meter-low";
+    } else {
+      bar.className = "meter-bar";
+    }
+
+    bar.style.width = (value*10) + "%";
+  }
 
   function renderResults(results) {
     $('results').className = "";
 
-    $('score').value = results.score;
-    $('score').textContent = ""+results.score+"/10";
+    var score = $('score');
+    score.value = results.score;
+    renderMeter(score);
 
     $('category').textContent = results.category;
 
@@ -40,11 +59,10 @@
   form.addEventListener('input', function() {
     renderResults(cssExplain($('selector').value));
   });
-  window.addEventListener('load', function() {
-    if (location.hash) {
-      var selector = location.hash.slice(1)
-      $('selector').value = selector;
-      renderResults(cssExplain(selector));
-    }
-  });
+
+  if (location.hash) {
+    var selector = location.hash.slice(1)
+    $('selector').value = selector;
+    renderResults(cssExplain(selector));
+  }
 })();
