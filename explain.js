@@ -40,4 +40,11 @@
   form.addEventListener('input', function() {
     renderResults(cssExplain($('selector').value));
   });
+  window.addEventListener('load', function() {
+    if (location.hash) {
+      var selector = location.hash.slice(1)
+      $('selector').value = selector;
+      renderResults(cssExplain(selector));
+    }
+  });
 })();
