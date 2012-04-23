@@ -17,7 +17,7 @@ h1 {
   text-shadow: 0 2px 1px rgba(0, 0, 0, 0.5);
 }
 
-h1 span {
+h1 > span {
   font-weight: 300;
   color: #a3c84b;
   font-family: Monaco;
@@ -59,14 +59,14 @@ input[type='text'] {
   visibility: hidden;
 }
 
-#results > meter {
+#score {
   width: 100%;
   height: 2em;
 }
 
 /* Meter Polyfill */
 
-meter > .meter-frame {
+.meter-frame {
   height: 2em;
   width: 100%;
   padding: 2px;
@@ -74,16 +74,16 @@ meter > .meter-frame {
   background-color: white;
 }
 
-meter > .meter-frame > .meter-bar {
+.meter-bar {
   height: 2em;
   border: none;
   background-color: #ff0;
 }
 
-meter > .meter-frame > .meter-bar.meter-low {
+.meter-bar.meter-low {
   background-color: #090;
 }
 
-meter > .meter-frame > .meter-bar.meter-high {
+.meter-bar.meter-high {
   background-color: #f00;
 }
