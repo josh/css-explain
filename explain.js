@@ -38,17 +38,21 @@
     score.value = results.score;
     renderMeter(score);
 
-    $('category').textContent = results.category;
+    $$('#categories .active')[0].className = 'block category';
+    $(results.category+'-category').className = 'block category active';
 
-    $('specificity').textContent = results.specificity.join(',');
+    $('a-specificity').textContent = results.specificity[0];
+    $('b-specificity').textContent = results.specificity[1];
+    $('c-specificity').textContent = results.specificity[2];
 
     $('messages').innerHTML = "";
 
     var i;
     for (i = 0; i < results.messages.length; i++) {
-      var p = document.createElement('p');
-      p.textContent = results.messages[i];
-      $('messages').appendChild(p);
+      var li = document.createElement('li');
+      li.textContent = results.messages[i];
+      li.className = 'message';
+      $('messages').appendChild(li);
     }
   }
 
@@ -61,7 +65,7 @@
   });
 
   if (location.hash) {
-    var selector = location.hash.slice(1)
+    var selector = decodeURIComponent(location.hash.slice(1));
     $('selector').value = selector;
     renderResults(cssExplain(selector));
   }

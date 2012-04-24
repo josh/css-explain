@@ -64,6 +64,37 @@ input[type='text'] {
   height: 2em;
 }
 
+.blocks {
+  margin-top: 2em;
+  text-align: center;
+}
+.block {
+  display: inline-block;
+  background: #000;
+  padding: 10px 25px;
+  color: #fff;
+}
+.block.header {
+  color: #fff;
+  background: none;
+}
+
+.category {
+  color: #333;
+}
+.category.active {
+  color: #fff;
+}
+
+#messages {
+  margin-top: 2em;
+  list-style: none;
+  text-align: center;
+}
+.message {
+  padding: 10px;
+}
+
 /* Meter Polyfill */
 
 .meter-frame {

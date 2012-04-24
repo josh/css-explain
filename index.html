@@ -19,9 +19,23 @@
           </div>
         </div>
       </meter>
-      <p>category: <output id="category"></output></p>
-      <p>specificity: [<output id="specificity"></output>]</p>
-      <div id="messages"></div>
+
+      <div id="categories" class="blocks">
+        <div class="block category header">Category</div>
+        <div id="id-category" class="block category">ID</div>
+        <div id="class-category" class="block category active">Class</div>
+        <div id="tag-category" class="block category">Tag</div>
+        <div id="universal-category" class="block category">Universal</div>
+      </div>
+
+      <div id="specificity" class="blocks">
+        <div class="block header">Specificity</div>
+        <div id="a-specificity" class="block">0</div>
+        <div id="b-specificity" class="block">0</div>
+        <div id="c-specificity" class="block">0</div>
+      </div>
+
+      <ul id="messages"></ul>
     </div>
   </div>
 
