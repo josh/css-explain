@@ -16,6 +16,15 @@ cssExplain("li .item")
 }
 ```
 
+### Results
+
+* **parts** - Parsed selector components
+* **specificity** - Computed specificy values as an Array (See [W3C calcuating selector specificity](http://www.w3.org/TR/CSS21/cascade.html#specificity))
+* **category** - Category key selector falls under (`id`/`class`/tag`/`universal`)
+* **score** - 1-10 rating. 1 being the most efficient and 10 being the least.
+* **messages** - Array of infomational reasons for why the score was computed.
+
+
 ## Contributing
 
 
