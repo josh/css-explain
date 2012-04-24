@@ -22,7 +22,7 @@
 
     if (value > high) {
       bar.className = "meter-bar meter-high";
-    } else if (value < low) {
+    } else if (value <= low) {
       bar.className = "meter-bar meter-low";
     } else {
       bar.className = "meter-bar";
