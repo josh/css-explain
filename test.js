@@ -58,6 +58,16 @@ exports.score = {
     test.equal(cssExplain("li").score, 3);
 
     test.done();
+  },
+
+  "multiple": function(test) {
+    test.deepEqual(cssExplain(".foo, .bar").parts, [".foo"]);
+
+    var results = cssExplain(".foo, .bar", true);
+    test.deepEqual(results[0].parts, [".foo"]);
+    test.deepEqual(results[1].parts, [".bar"]);
+
+    test.done();
   }
 };
 

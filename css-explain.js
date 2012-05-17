@@ -185,9 +185,19 @@
   // Public: Explains a CSS selector.
   //
   // selector - CSS selector String.
+  // multiple - Boolean to allow multiple rules (defaults: false)
   //
   // Returns an Object.
-  function cssExplain(selector) {
+  function cssExplain(selector, multiple) {
+    if (multiple) {
+      var results = [];
+      var i, selectors = selector.split(',');
+      for (i = 0; i < selectors.length; i++) {
+        results.push(cssExplain(selectors[i]));
+      }
+      return results;
+    }
+
     var parts       = parse(selector);
     var specificity = computeSpecificity(parts);
     var category    = detectCategory(parts);
