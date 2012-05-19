@@ -1,5 +1,5 @@
 (function() {
-  var i, report, reports = cssExplainStyleSheets();
+  var i, report, reports = cssExplain(document.styleSheets);
   for (i = 0; i < reports.length; i++) {
     var report = reports[i];
     console.log(report.selector, report.score, report.messages)
