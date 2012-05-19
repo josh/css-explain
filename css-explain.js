@@ -179,19 +179,9 @@
   // Public: Explains a CSS selector.
   //
   // selector - CSS selector String.
-  // multiple - Boolean to allow multiple rules (defaults: false)
   //
   // Returns an Object.
-  function cssExplain(selector, multiple) {
-    if (multiple) {
-      var results = [];
-      var i, selectors = selector.split(',');
-      for (i = 0; i < selectors.length; i++) {
-        results.push(cssExplain(selectors[i]));
-      }
-      return results;
-    }
-
+  function cssExplainSelector(selector) {
     var parts       = parse(selector);
     var specificity = computeSpecificity(parts);
     var category    = detectCategoryAndKey(parts);
@@ -206,6 +196,32 @@
       score: analysis.score,
       messages: analysis.messages
     };
+  }
+
+  // Public: Explains a CSS selector.
+  //
+  // selector - CSS selector String.
+  // multiple - Boolean to allow multiple rules
+  //
+  // Returns an Object.
+  function cssExplain(selector, multiple) {
+    if (multiple === false) {
+      return cssExplain(selector, true)[0];
+    } else if (typeof selector == 'object' && 'length' in selector) {
+      var i, results = [];
+      for (i = 0; i < selector.length; i++) {
+        results = results.concat(cssExplain(selector[i], true));
+      }
+      return results;
+    } else if (typeof selector === 'string') {
+      if (selector.match(/,/)) {
+        return cssExplain(selector.split(/\s*,\s*/), multiple || false);
+      } else {
+        return cssExplainSelector(selector);
+      }
+    } else {
+      throw "unknown selector type";
+    }
   }
 
   function cssExplainStyleSheets() {

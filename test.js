@@ -6,6 +6,35 @@ cssExplain = require('./css-explain').cssExplain;
 // * https://developer.mozilla.org/en/Writing_Efficient_CSS
 // * http://www.stuffandnonsense.co.uk/archives/images/specificitywars-05v2.jpg
 
+exports.selector = {
+  "simple": function(test) {
+    test.deepEqual(cssExplain(".foo, .bar").selector, ".foo");
+    test.deepEqual(cssExplain(".foo, .bar", false).selector, ".foo");
+    test.deepEqual(cssExplain([".foo, .bar"], false).selector, ".foo");
+    test.deepEqual(cssExplain([".foo", ".bar"], false).selector, ".foo");
+
+    test.done();
+  },
+
+  "multiple": function(test) {
+    var results;
+
+    results = cssExplain(".foo, .bar", true);
+    test.deepEqual(results[0].selector, ".foo");
+    test.deepEqual(results[1].selector, ".bar");
+
+    results = cssExplain([".foo", ".bar"]);
+    test.deepEqual(results[0].selector, ".foo");
+    test.deepEqual(results[1].selector, ".bar");
+
+    results = cssExplain([".foo, .bar"]);
+    test.deepEqual(results[0].selector, ".foo");
+    test.deepEqual(results[1].selector, ".bar");
+
+    test.done();
+  }
+};
+
 exports.score = {
   "descendant selectors with universal selector key": function(test) {
     test.equal(cssExplain("body *").score, 10);
@@ -56,16 +85,6 @@ exports.score = {
     test.equal(cssExplain("#footer").score, 1);
     test.equal(cssExplain(".item").score, 2);
     test.equal(cssExplain("li").score, 3);
-
-    test.done();
-  },
-
-  "multiple": function(test) {
-    test.deepEqual(cssExplain(".foo, .bar").parts, [".foo"]);
-
-    var results = cssExplain(".foo, .bar", true);
-    test.deepEqual(results[0].parts, [".foo"]);
-    test.deepEqual(results[1].parts, [".bar"]);
 
     test.done();
   }
