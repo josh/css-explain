@@ -200,49 +200,37 @@
 
   // Public: Explains a CSS selector.
   //
-  // selector - CSS selector String.
-  // multiple - Boolean to allow multiple rules
+  // obj      - CSS selector String.
+  // multiple - Boolean to return multiple rules results.
   //
   // Returns an Object.
-  function cssExplain(selector, multiple) {
+  function cssExplain(obj, multiple) {
     if (multiple === false) {
-      return cssExplain(selector, true)[0];
-    } else if (typeof selector == 'object' && 'length' in selector) {
+      return cssExplain(obj, true)[0];
+    } else if (typeof obj == 'object' && 'length' in obj) {
       var i, results = [];
-      for (i = 0; i < selector.length; i++) {
-        results = results.concat(cssExplain(selector[i], true));
+      for (i = 0; i < obj.length; i++) {
+        results = results.concat(cssExplain(obj[i], true));
       }
       return results;
-    } else if (typeof selector === 'string') {
-      if (selector.match(/,/)) {
-        return cssExplain(selector.split(/\s*,\s*/), multiple || false);
+    } else if (typeof obj == 'object' && 'cssRules' in obj) {
+      return cssExplain(obj.cssRules, multiple);
+    } else if (typeof obj == 'object' && 'selectorText' in obj) {
+      return cssExplain(obj.selectorText, multiple);
+    } else if (typeof obj === 'string') {
+      if (obj.match(/,/)) {
+        return cssExplain(obj.split(/\s*,\s*/), multiple || false);
       } else {
-        return cssExplainSelector(selector);
+        return cssExplainSelector(obj);
       }
     } else {
       throw "unknown selector type";
     }
   }
 
-  function cssExplainStyleSheets() {
-    var rules, i, j, results = [];
-
-    for (i = 0; i < document.styleSheets.length; i++) {
-      rules = document.styleSheets[i].cssRules;
-      if (!rules) continue;
-
-      for (j = 0; j < rules.length; j++) {
-        results = results.concat(cssExplain(rules[j].selectorText, true));
-      }
-    }
-
-    return results;
-  }
-
   if (typeof exports !== 'undefined') {
     exports.cssExplain = cssExplain;
   } else {
     window.cssExplain = cssExplain;
-    window.cssExplainStyleSheets = cssExplainStyleSheets;
   }
 })();
