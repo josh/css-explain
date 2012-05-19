@@ -9,6 +9,7 @@ Think of it like SQL `EXPLAIN`, but for CSS selectors.
 ``` javascript
 cssExplain("li .item")
 {
+  "selector": "li .item",
   "parts": ["li", ".item"],
   "specificity": [0, 1, 1],
   "category": "class",
@@ -19,6 +20,7 @@ cssExplain("li .item")
 
 ### Results
 
+* **selector** - Selector input
 * **parts** - Parsed selector components
 * **specificity** - Computed specificy values as an Array (See [W3C calcuating selector specificity](http://www.w3.org/TR/CSS21/cascade.html#specificity))
 * **category** - Category key selector falls under (`id`/`class`/`tag`/`universal`)

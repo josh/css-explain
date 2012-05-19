@@ -198,6 +198,7 @@
     var analysis    = analyze(parts);
 
     return {
+      selector: selector,
       parts: parts,
       category: category[0],
       key: category[1],
@@ -207,9 +208,25 @@
     };
   }
 
+  function cssExplainStyleSheets() {
+    var rules, i, j, results = [];
+
+    for (i = 0; i < document.styleSheets.length; i++) {
+      rules = document.styleSheets[i].cssRules;
+      if (!rules) continue;
+
+      for (j = 0; j < rules.length; j++) {
+        results.concat(cssExplain(rules[j].selectorText, true));
+      }
+    }
+
+    return results;
+  }
+
   if (typeof exports !== 'undefined') {
     exports.cssExplain = cssExplain;
   } else {
     window.cssExplain = cssExplain;
+    window.cssExplainStyleSheets = cssExplainStyleSheets;
   }
 })();
