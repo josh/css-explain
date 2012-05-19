@@ -24,8 +24,7 @@
 
     do {
       chunker.exec("");
-      m = chunker.exec(rest);
-      if (m) {
+      if (m = chunker.exec(rest)) {
         rest = m[3];
         parts.push(m[1]);
         if (m[2]) {
@@ -49,42 +48,37 @@
     for (i = 0, len = parts.length; i < len; i++) {
       part = parts[i];
 
-      m = part.match(match.ID);
-      if (m) a += m.length;
-
-      m = part.match(match.ATTR);
-      if (m) b += m.length;
-
-      m = part.match(match.CLASS);
-      if (m) b += m.length;
-
-      m = part.match(match.TAG);
-      if (m) c += m.length;
-
-      m = part.match(match.PSEUDO);
-      if (m) c += m.length;
+      if (m = part.match(match.ID)) a += m.length;
+      if (m = part.match(match.ATTR)) b += m.length;
+      if (m = part.match(match.CLASS)) b += m.length;
+      if (m = part.match(match.TAG)) c += m.length;
+      if (m = part.match(match.PSEUDO)) c += m.length;
     }
 
     return [a, b, c];
   }
 
-  // Internal: Determine the primary category of a selector.
+  // Internal: Determine the primary category and key of a selector.
+  //
+  // Attempts to mirror WebKit's RuleSet::addRule rule set mappings.
+  // https://github.com/WebKit/webkit/blob/master/Source/WebCore/css/StyleResolver.cpp
   //
   // parts - Parsed selector Array.
   //
-  // Returns 'id', 'class', 'tag', or 'universal'.
-  function detectCategory(parts) {
-    var last = parts[parts.length-1];
+  // Returns a pair with first 'id', 'class', 'tag', or 'universal'.
+  // Then a String key value
+  function detectCategoryAndKey(parts) {
+    var m, last = parts[parts.length-1];
     if (!last) {
-      return 'universal';
-    } else if (last.match(match.ID)) {
-      return 'id';
-    } else if (last.match(match.CLASS)) {
-      return 'class';
-    } else if (last.match(match.TAG)) {
-      return 'tag';
+      return ['universal', '*'];
+    } else if (m = last.match(match.ID)) {
+      return ['id', m[0].slice(1)];
+    } else if (m = last.match(match.CLASS)) {
+      return ['class', m[0].slice(1)];
+    } else if (m = last.match(match.TAG)) {
+      return ['tag', m[0]];
     } else {
-      return 'universal';
+      return ['universal', '*'];
     }
   }
 
@@ -185,26 +179,54 @@
   // Public: Explains a CSS selector.
   //
   // selector - CSS selector String.
+  // multiple - Boolean to allow multiple rules (defaults: false)
   //
   // Returns an Object.
-  function cssExplain(selector) {
+  function cssExplain(selector, multiple) {
+    if (multiple) {
+      var results = [];
+      var i, selectors = selector.split(',');
+      for (i = 0; i < selectors.length; i++) {
+        results.push(cssExplain(selectors[i]));
+      }
+      return results;
+    }
+
     var parts       = parse(selector);
     var specificity = computeSpecificity(parts);
-    var category    = detectCategory(parts);
+    var category    = detectCategoryAndKey(parts);
     var analysis    = analyze(parts);
 
     return {
+      selector: selector,
       parts: parts,
-      category: category,
+      category: category[0],
+      key: category[1],
       specificity: specificity,
       score: analysis.score,
       messages: analysis.messages
     };
   }
 
+  function cssExplainStyleSheets() {
+    var rules, i, j, results = [];
+
+    for (i = 0; i < document.styleSheets.length; i++) {
+      rules = document.styleSheets[i].cssRules;
+      if (!rules) continue;
+
+      for (j = 0; j < rules.length; j++) {
+        results = results.concat(cssExplain(rules[j].selectorText, true));
+      }
+    }
+
+    return results;
+  }
+
   if (typeof exports !== 'undefined') {
     exports.cssExplain = cssExplain;
   } else {
     window.cssExplain = cssExplain;
+    window.cssExplainStyleSheets = cssExplainStyleSheets;
   }
 })();

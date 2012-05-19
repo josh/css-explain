@@ -1,11 +1,8 @@
 (function() {
-  var rules, selector, report, i, len;
-  rules = document.styleSheets[0].cssRules;
-  if (!rules) return;
-  for (i = 0, len = rules.length; i < len; i++) {
-    selector = rules[i].selectorText;
-    report = cssExplain(selector);
-    console.log(selector, report.score, report.messages)
+  var i, report, reports = cssExplainStyleSheets();
+  for (i = 0; i < reports.length; i++) {
+    var report = reports[i];
+    console.log(report.selector, report.score, report.messages)
   }
 })();
 
