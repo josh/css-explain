@@ -121,6 +121,41 @@ exports.messages = {
   }
 };
 
+exports.key = {
+  "id category selectors": function(test) {
+    test.equal(cssExplain("button#backButton").key, 'backButton');
+    test.equal(cssExplain("#urlBar[type=\"autocomplete\"]").key, 'urlBar');
+    test.equal(cssExplain("treeitem > treerow > treecell#myCell:active").key, 'myCell');
+
+    test.done();
+  },
+
+  "class category selectors": function(test) {
+    test.equal(cssExplain("button.toolbarButton").key, 'toolbarButton');
+    test.equal(cssExplain(".fancyText").key, 'fancyText');
+    test.equal(cssExplain("menuitem > .menu-left[checked=\"true\"]").key, 'menu-left');
+
+    test.done();
+  },
+
+  "tag category selectors": function(test) {
+    test.equal(cssExplain("td").key, 'td');
+    test.equal(cssExplain("treeitem > treerow").key, 'treerow');
+    test.equal(cssExplain("input[type=\"checkbox\"]").key, 'input');
+
+    test.done();
+  },
+
+  "universal category selectors": function(test) {
+    test.equal(cssExplain("").key, '*');
+    test.equal(cssExplain("[hidden=\"true\"]").key, '*');
+    test.equal(cssExplain("*").key, '*');
+    test.equal(cssExplain("tree > [collapsed=\"true\"]").key, '*');
+
+    test.done();
+  }
+};
+
 exports.category = {
   "id category selectors": function(test) {
     test.equal(cssExplain("button#backButton").category, 'id');
