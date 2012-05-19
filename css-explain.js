@@ -216,7 +216,7 @@
       if (!rules) continue;
 
       for (j = 0; j < rules.length; j++) {
-        results.concat(cssExplain(rules[j].selectorText, true));
+        results = results.concat(cssExplain(rules[j].selectorText, true));
       }
     }
 
