@@ -207,25 +207,31 @@
   function cssExplain(obj, multiple) {
     if (multiple === false) {
       return cssExplain(obj, true)[0];
-    } else if (typeof obj == 'object' && 'length' in obj) {
-      var i, results = [];
-      for (i = 0; i < obj.length; i++) {
-        results = results.concat(cssExplain(obj[i], true));
+    }
+
+    if (obj !== null && typeof obj == 'object') {
+      if ('length' in obj) {
+        var i, results = [];
+        for (i = 0; i < obj.length; i++) {
+          results = results.concat(cssExplain(obj[i], true));
+        }
+        return results;
+      } else if ('cssRules' in obj) {
+        return cssExplain(obj.cssRules, multiple);
+      } else if ('selectorText' in obj) {
+        return cssExplain(obj.selectorText, multiple);
       }
-      return results;
-    } else if (typeof obj == 'object' && 'cssRules' in obj) {
-      return cssExplain(obj.cssRules, multiple);
-    } else if (typeof obj == 'object' && 'selectorText' in obj) {
-      return cssExplain(obj.selectorText, multiple);
-    } else if (typeof obj === 'string') {
+    }
+
+    if (typeof obj === 'string') {
       if (obj.match(/,/)) {
         return cssExplain(obj.split(/\s*,\s*/), multiple || false);
       } else {
         return cssExplainSelector(obj);
       }
-    } else {
-      throw "unknown selector type";
     }
+
+    return multiple ? [] : null;
   }
 
   if (typeof exports !== 'undefined') {

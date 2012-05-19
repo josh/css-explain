@@ -8,10 +8,12 @@ cssExplain = require('./css-explain').cssExplain;
 
 exports.selector = {
   "simple": function(test) {
-    test.deepEqual(cssExplain(".foo, .bar").selector, ".foo");
-    test.deepEqual(cssExplain(".foo, .bar", false).selector, ".foo");
-    test.deepEqual(cssExplain([".foo, .bar"], false).selector, ".foo");
-    test.deepEqual(cssExplain([".foo", ".bar"], false).selector, ".foo");
+    test.equal(cssExplain(null), null);
+
+    test.equal(cssExplain(".foo, .bar").selector, ".foo");
+    test.equal(cssExplain(".foo, .bar", false).selector, ".foo");
+    test.equal(cssExplain([".foo, .bar"], false).selector, ".foo");
+    test.equal(cssExplain([".foo", ".bar"], false).selector, ".foo");
 
     test.done();
   },
@@ -19,17 +21,19 @@ exports.selector = {
   "multiple": function(test) {
     var results;
 
+    test.equal(cssExplain(null, true)[0], null);
+
     results = cssExplain(".foo, .bar", true);
-    test.deepEqual(results[0].selector, ".foo");
-    test.deepEqual(results[1].selector, ".bar");
+    test.equal(results[0].selector, ".foo");
+    test.equal(results[1].selector, ".bar");
 
     results = cssExplain([".foo", ".bar"]);
-    test.deepEqual(results[0].selector, ".foo");
-    test.deepEqual(results[1].selector, ".bar");
+    test.equal(results[0].selector, ".foo");
+    test.equal(results[1].selector, ".bar");
 
     results = cssExplain([".foo, .bar"]);
-    test.deepEqual(results[0].selector, ".foo");
-    test.deepEqual(results[1].selector, ".bar");
+    test.equal(results[0].selector, ".foo");
+    test.equal(results[1].selector, ".bar");
 
     test.done();
   }
