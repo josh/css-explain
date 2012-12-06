@@ -47,6 +47,11 @@ input[type='text'] {
   border-right: 0;
 }
 
+a {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
 #results {
   width: 620px;
   padding: 10px;
