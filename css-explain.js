@@ -9,7 +9,8 @@
     CLASS: /\.((?:[\w\u00c0-\uFFFF\-]|\\.)+)/g,
     TAG: /^((?:[\w\u00c0-\uFFFF\-]|\\.)+)/g,
     ATTR: /\[\s*((?:[\w\u00c0-\uFFFF\-]|\\.)+)\s*(?:(\S?=)\s*(?:(['"])(.*?)\3|(#?(?:[\w\u00c0-\uFFFF\-]|\\.)*)|)|)\s*\]/g,
-    PSEUDO: /:((?:[\w\u00c0-\uFFFF\-]|\\.)+)(?:\((['"]?)((?:\([^\)]+\)|[^\(\)]*)+)\2\))?/g
+    PSEUDO_CLASS: /[^:]:(?!first-line|first-letter|before|after)((?:[\w\u00c0-\uFFFF\-]|\\.)+)(?:\((['"]?)((?:\([^\)]+\)|[^\(\)]*)+)\2\))?/g,
+    PSEUDO_ELEMENT: /(:first-line|:first-letter|:before|:after)|::((?:[\w\u00c0-\uFFFF\-]|\\.)+)(?:\((['"]?)((?:\([^\)]+\)|[^\(\)]*)+)\2\))?/g
   };
 
   // Internal: Parse CSS selector into parts.
@@ -52,7 +53,8 @@
       if (m = part.match(match.ATTR)) b += m.length;
       if (m = part.match(match.CLASS)) b += m.length;
       if (m = part.match(match.TAG)) c += m.length;
-      if (m = part.match(match.PSEUDO)) c += m.length;
+      if (m = part.match(match.PSEUDO_CLASS)) b += m.length;
+      if (m = part.match(match.PSEUDO_ELEMENT)) c += m.length;
     }
 
     return [a, b, c];
