@@ -5,5 +5,8 @@
   "devDependencies": {
     "jshint": "latest",
     "nodeunit": "latest"
+  },
+  "scripts": {
+    "test": "make test"
   }
 }
