@@ -1,0 +1,47 @@
+#! /usr/bin/env node
+
+// Modules
+var fs = require('fs');
+var parserlib = require("parserlib");
+var cssExplain = require('../css-explain').cssExplain;
+
+// "Helper" function for sorting
+var compareSelectorScores = function(explainA, explainB) {
+  return explainA.score - explainB.score;
+}
+
+// Collect names of the files
+var files = [];
+process.argv.forEach(function(val, index, array) {
+  if(/\.css$/.test(val)){
+    files.push(val);
+  }
+});
+
+// Setup parser and listeners
+var results = [];
+var parser = new parserlib.css.Parser();
+parser.addListener("startrule", function(event){
+  for(var i=0,len=event.selectors.length; i < len; i++){
+    var selector = event.selectors[i];
+    var explained = cssExplain(selector.text);
+    results.push(explained);
+  }
+});
+parser.addListener("endstylesheet", function(){
+  var len = results.length;
+  results.sort(compareSelectorScores);
+  for(var s = len-1; s >= 0; s--){
+    console.log("" + results[s].score + " --- " + results[s].selector);
+  }
+});
+
+// Go through each file and explain
+files.forEach(function(val, index, array){
+  fs.readFile(val, 'utf8', function (err, data) {
+    if (err) {
+      return console.log(err);
+    }
+    parser.parseStyleSheet(data);
+  });
+});

@@ -2,6 +2,9 @@
   "name": "css-explain",
   "version": "0.1.0",
   "main": "./css-explain.js",
+  "dependencies": {
+    "parserlib": "latest"
+  },
   "devDependencies": {
     "jshint": "latest",
     "nodeunit": "latest"
