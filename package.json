@@ -11,5 +11,8 @@
   },
   "scripts": {
     "test": "make test"
+  },
+  "bin": {
+    "css-explain": "./bin/css-explain"
   }
 }
