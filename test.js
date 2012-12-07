@@ -239,5 +239,21 @@ exports.specificity = function(test) {
   test.deepEqual(cssExplain(".whatever .whatever #whatever").specificity, [1, 2, 0]);
   test.deepEqual(cssExplain("#whatever #whatever").specificity, [2, 0, 0]);
 
+  // Pseudo classes
+  test.deepEqual(cssExplain("li:hover").specificity, [0, 1, 1]);
+  test.deepEqual(cssExplain("li:first-child").specificity, [0, 1, 1]);
+
+  // CSS3 pseudo elements
+  test.deepEqual(cssExplain("li::first-line").specificity, [0, 0, 2]);
+  test.deepEqual(cssExplain("::first-letter").specificity, [0, 0, 1]);
+  test.deepEqual(cssExplain("span::before").specificity, [0, 0, 2]);
+  test.deepEqual(cssExplain("span::after").specificity, [0, 0, 2]);
+
+  // CSS2 pseudo elements
+  test.deepEqual(cssExplain("li:first-line").specificity, [0, 0, 2]);
+  test.deepEqual(cssExplain("p:first-letter").specificity, [0, 0, 2]);
+  test.deepEqual(cssExplain("span:before").specificity, [0, 0, 2]);
+  test.deepEqual(cssExplain("span:after").specificity, [0, 0, 2]);
+
   test.done();
 };
