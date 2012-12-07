@@ -29,6 +29,14 @@ cssExplain("li .item")
 * **messages** - Array of infomational reasons for why the score was computed.
 
 
+### Command-Line Binary
+
+```
+$ css-explain home.css main.css java.css
+```
+
+This will give you a read-out of the scores for these CSS files.
+
 ## Contributing
 
 
