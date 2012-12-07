@@ -1,4 +1,4 @@
-cssExplain = require('./css-explain').cssExplain;
+cssExplain = require('./lib/css-explain').cssExplain;
 
 // References
 //

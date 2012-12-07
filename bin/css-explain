@@ -3,7 +3,7 @@
 // Modules
 var fs = require('fs');
 var parserlib = require("parserlib");
-var cssExplain = require('../css-explain').cssExplain;
+var cssExplain = require('../lib/css-explain').cssExplain;
 
 // "Helper" function for sorting
 var compareSelectorScores = function(explainA, explainB) {
