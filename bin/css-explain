@@ -9,6 +9,15 @@ var cssExplain = require('../css-explain').cssExplain;
 var compareSelectorScores = function(explainA, explainB) {
   return explainA.score - explainB.score;
 }
+// Many thanks to http://james.padolsey.com/javascript/wordwrap-for-javascript/
+var wordwrap = function(str, width, brk, cut) {
+    brk = brk || '\n';
+    width = width || 75;
+    cut = cut || false;
+    if (!str) { return str; }
+    var regex = '.{1,' +width+ '}(\\s|$)' + (cut ? '|.{' +width+ '}|.+$' : '|\\S+?(\\s|$)');
+    return str.match( RegExp(regex, 'g') ).join( brk );
+}
 
 // Collect names of the files
 var files = [];
@@ -19,7 +28,7 @@ process.argv.forEach(function(val, index, array) {
 });
 
 // Setup parser and listeners
-var results = [];
+var currentStyleSheet = null, results = [];
 var parser = new parserlib.css.Parser();
 parser.addListener("startrule", function(event){
   for(var i=0,len=event.selectors.length; i < len; i++){
@@ -28,20 +37,32 @@ parser.addListener("startrule", function(event){
     results.push(explained);
   }
 });
+parser.addListener("startstylesheet", function(){
+  console.log("Results for " + currentStyleSheet + ":");
+});
 parser.addListener("endstylesheet", function(){
-  var len = results.length;
+  var len = results.length, currentScore = 10, resultsWithCurrentScore = [];
   results.sort(compareSelectorScores);
   for(var s = len-1; s >= 0; s--){
-    console.log("" + results[s].score + " --- " + results[s].selector);
+    if(results[s].score >= currentScore){
+      resultsWithCurrentScore.push(results[s].selector.replace(/\s+/g, " "));
+    }else{
+      if(resultsWithCurrentScore.length > 0){
+        console.log("    Results with score of " + results[s].score + ":\n        " + wordwrap(resultsWithCurrentScore.join(', '), 75, "\n        "));
+      }
+      currentScore -= 1;
+      resultsWithCurrentScore = [];
+    }
   }
 });
 
-// Go through each file and explain
+// Go through each file and score the CSS
 files.forEach(function(val, index, array){
   fs.readFile(val, 'utf8', function (err, data) {
     if (err) {
       return console.log(err);
     }
+    currentStyleSheet = val;
     parser.parseStyleSheet(data);
   });
 });
