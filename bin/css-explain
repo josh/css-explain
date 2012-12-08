@@ -1,68 +1,30 @@
 #! /usr/bin/env node
 
 // Modules
-var fs = require('fs');
-var parserlib = require("parserlib");
-var cssExplain = require('../lib/css-explain').cssExplain;
+var cssExplainCLI = require('../lib/css-explain-cli').cssExplainCLI;
 
-// "Helper" function for sorting
-var compareSelectorScores = function(explainA, explainB) {
-  return explainA.score - explainB.score;
-}
-// Many thanks to http://james.padolsey.com/javascript/wordwrap-for-javascript/
-var wordwrap = function(str, width, brk, cut) {
-    brk = brk || '\n';
-    width = width || 75;
-    cut = cut || false;
-    if (!str) { return str; }
-    var regex = '.{1,' +width+ '}(\\s|$)' + (cut ? '|.{' +width+ '}|.+$' : '|\\S+?(\\s|$)');
-    return str.match( RegExp(regex, 'g') ).join( brk );
+Array.prototype.contains = function(k) {
+  for(p in this)
+    if(this[p] === k)
+      return true;
+  return false;
 }
 
 // Collect names of the files
-var files = [];
+var files = [], outputType = "human", supportedTypes = ['human', 'csv'];
 process.argv.forEach(function(val, index, array) {
   if(/\.css$/.test(val)){
     files.push(val);
-  }
-});
-
-// Setup parser and listeners
-var currentStyleSheet = null, results = [];
-var parser = new parserlib.css.Parser();
-parser.addListener("startrule", function(event){
-  for(var i=0,len=event.selectors.length; i < len; i++){
-    var selector = event.selectors[i];
-    var explained = cssExplain(selector.text);
-    results.push(explained);
-  }
-});
-parser.addListener("startstylesheet", function(){
-  console.log("Results for " + currentStyleSheet + ":");
-});
-parser.addListener("endstylesheet", function(){
-  var len = results.length, currentScore = 10, resultsWithCurrentScore = [];
-  results.sort(compareSelectorScores);
-  for(var s = len-1; s >= 0; s--){
-    if(results[s].score >= currentScore){
-      resultsWithCurrentScore.push(results[s].selector.replace(/\s+/g, " "));
-    }else{
-      if(resultsWithCurrentScore.length > 0){
-        console.log("    Results with score of " + results[s].score + ":\n        " + wordwrap(resultsWithCurrentScore.join(', '), 75, "\n        "));
+  }else{
+    if(/\-t$/.test(val) && index+1 < array.length){
+      var newOutputType = array[index+1];
+      if(supportedTypes.contains(newOutputType)){
+        outputType = newOutputType;
+      }else{
+        throw "Type '" + newOutputType + "' is not supported.";
       }
-      currentScore -= 1;
-      resultsWithCurrentScore = [];
     }
   }
 });
 
-// Go through each file and score the CSS
-files.forEach(function(val, index, array){
-  fs.readFile(val, 'utf8', function (err, data) {
-    if (err) {
-      return console.log(err);
-    }
-    currentStyleSheet = val;
-    parser.parseStyleSheet(data);
-  });
-});
+cssExplainCLI.parseDocuments(files, outputType);
