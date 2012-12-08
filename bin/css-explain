@@ -1,0 +1,30 @@
+#! /usr/bin/env node
+
+// Modules
+var cssExplainCLI = require('../lib/css-explain-cli').cssExplainCLI;
+
+Array.prototype.contains = function(k) {
+  for(p in this)
+    if(this[p] === k)
+      return true;
+  return false;
+}
+
+// Collect names of the files
+var files = [], outputType = "human", supportedTypes = ['human', 'csv'];
+process.argv.forEach(function(val, index, array) {
+  if(/\.css$/.test(val)){
+    files.push(val);
+  }else{
+    if(/\-t$/.test(val) && index+1 < array.length){
+      var newOutputType = array[index+1];
+      if(supportedTypes.contains(newOutputType)){
+        outputType = newOutputType;
+      }else{
+        throw "Type '" + newOutputType + "' is not supported.";
+      }
+    }
+  }
+});
+
+cssExplainCLI.parseDocuments(files, outputType);

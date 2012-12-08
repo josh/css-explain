@@ -1,12 +1,18 @@
 {
   "name": "css-explain",
   "version": "0.1.0",
-  "main": "./css-explain.js",
+  "main": "./lib/css-explain.js",
+  "dependencies": {
+    "parserlib": "latest"
+  },
   "devDependencies": {
     "jshint": "latest",
     "nodeunit": "latest"
   },
   "scripts": {
     "test": "make test"
+  },
+  "bin": {
+    "css-explain": "./bin/css-explain"
   }
 }
