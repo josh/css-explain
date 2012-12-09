@@ -78,6 +78,10 @@ input[type='text'] {
   color: #fff;
   background: none;
 }
+.block.header > a {
+  color: #fff;
+  text-decoration: none;
+}
 
 .category {
   color: #333;
