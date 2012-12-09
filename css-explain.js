@@ -1,4 +1,4 @@
-(function() {
+(function () {
   "use strict";
 
   // From Sizzle
@@ -70,7 +70,7 @@
   // Returns a pair with first 'id', 'class', 'tag', or 'universal'.
   // Then a String key value
   function detectCategoryAndKey(parts) {
-    var m, last = parts[parts.length-1];
+    var m, last = parts[parts.length - 1];
     if (!last) {
       return ['universal', '*'];
     } else if (m = last.match(match.ID)) {
@@ -93,7 +93,7 @@
   // Returns an Object with a score, Number 1 through 10 and
   // an Array of reason strings.
   function analyze(parts) {
-    var last = parts[parts.length-1];
+    var last = parts[parts.length - 1];
     var score = 1;
     var messages = [];
 
@@ -116,7 +116,7 @@
 
       // Check for redundant descendant selectors
       if (parts.length > 1) {
-        if (parts[parts.length-2] === '>') {
+        if (parts[parts.length - 2] === '>') {
           messages.push("ID is overly qualified by a child selector");
           score++;
         } else {
@@ -131,7 +131,7 @@
       score += 1;
 
       if (parts.length > 1) {
-        if (parts[parts.length-2] === '>') {
+        if (parts[parts.length - 2] === '>') {
           messages.push("Uses a child selector with a rightmost class selector");
           score += 2;
         } else {
@@ -146,7 +146,7 @@
       score += 2;
 
       if (parts.length > 1) {
-        if (parts[parts.length-2] === '>') {
+        if (parts[parts.length - 2] === '>') {
           messages.push("Uses a child selector with a rightmost tag selector");
           score += 4;
         } else {
@@ -161,7 +161,7 @@
       score += 3;
 
       if (parts.length > 1) {
-        if (parts[parts.length-2] === '>') {
+        if (parts[parts.length - 2] === '>') {
           messages.push("Uses a child selector with a rightmost universal selector");
           score += 5;
         } else {

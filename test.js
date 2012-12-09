@@ -1,4 +1,6 @@
-cssExplain = require('./css-explain').cssExplain;
+"use strict";
+
+var cssExplain = require('./css-explain').cssExplain;
 
 // References
 //
@@ -7,7 +9,7 @@ cssExplain = require('./css-explain').cssExplain;
 // * http://www.stuffandnonsense.co.uk/archives/images/specificitywars-05v2.jpg
 
 exports.selector = {
-  "simple": function(test) {
+  "simple": function (test) {
     test.equal(cssExplain(null), null);
 
     test.equal(cssExplain(".foo, .bar").selector, ".foo");
@@ -18,7 +20,7 @@ exports.selector = {
     test.done();
   },
 
-  "multiple": function(test) {
+  "multiple": function (test) {
     var results;
 
     test.equal(cssExplain(null, true)[0], null);
@@ -40,14 +42,14 @@ exports.selector = {
 };
 
 exports.score = {
-  "descendant selectors with universal selector key": function(test) {
+  "descendant selectors with universal selector key": function (test) {
     test.equal(cssExplain("body *").score, 10);
     test.equal(cssExplain(".hide-scrollbars *").score, 10);
 
     test.done();
   },
 
-  "descendant selectors with tag selector key": function(test) {
+  "descendant selectors with tag selector key": function (test) {
     test.equal(cssExplain("ul li a").score, 8);
     test.equal(cssExplain("#footer h3").score, 8);
     test.equal(cssExplain("* html #atticPromo ul li a").score, 8);
@@ -55,28 +57,28 @@ exports.score = {
     test.done();
   },
 
-  "descendant selectors with class selector key": function(test) {
+  "descendant selectors with class selector key": function (test) {
     test.equal(cssExplain("li .item").score, 6);
     test.equal(cssExplain("#footer .copyright").score, 6);
 
     test.done();
   },
 
-  "child selectors with universal selector key": function(test) {
+  "child selectors with universal selector key": function (test) {
     test.equal(cssExplain("body > *").score, 9);
     test.equal(cssExplain(".hide-scrollbars > *").score, 9);
 
     test.done();
   },
 
-  "child selectors with tag selector key": function(test) {
+  "child selectors with tag selector key": function (test) {
     test.equal(cssExplain("ul > li > a").score, 7);
     test.equal(cssExplain("#footer > h3").score, 7);
 
     test.done();
   },
 
-  "overly qualified selectors": function(test) {
+  "overly qualified selectors": function (test) {
     test.equal(cssExplain("ul#top_blue_nav").score, 2);
     test.equal(cssExplain("form#UserLogin").score, 2);
     test.equal(cssExplain("button#backButton").score, 2);
@@ -85,7 +87,7 @@ exports.score = {
     test.done();
   },
 
-  "simple": function(test) {
+  "simple": function (test) {
     test.equal(cssExplain("#footer").score, 1);
     test.equal(cssExplain(".item").score, 2);
     test.equal(cssExplain("li").score, 3);
@@ -95,37 +97,37 @@ exports.score = {
 };
 
 exports.messages = {
-  "descendant selectors with universal selector key": function(test) {
+  "descendant selectors with universal selector key": function (test) {
     test.deepEqual(cssExplain("body *").messages, ["Uses a descendant selector with a rightmost universal selector"]);
     test.done();
   },
 
-  "descendant selectors with tag selector key": function(test) {
+  "descendant selectors with tag selector key": function (test) {
     test.deepEqual(cssExplain("#footer h3").messages, ["Uses a descendant selector with a rightmost tag selector"]);
     test.done();
   },
 
-  "descendant selectors with class selector key": function(test) {
+  "descendant selectors with class selector key": function (test) {
     test.deepEqual(cssExplain("li .item").messages, ["Uses a descendant selector with a rightmost class selector"]);
     test.done();
   },
 
-  "child selectors with universal selector key": function(test) {
+  "child selectors with universal selector key": function (test) {
     test.deepEqual(cssExplain("body > *").messages, ["Uses a child selector with a rightmost universal selector"]);
     test.done();
   },
 
-  "child selectors with tag selector key": function(test) {
+  "child selectors with tag selector key": function (test) {
     test.deepEqual(cssExplain("#footer > h3").messages, ["Uses a child selector with a rightmost tag selector"]);
     test.done();
   },
 
-  "child selectors with class selector key": function(test) {
+  "child selectors with class selector key": function (test) {
     test.deepEqual(cssExplain("#footer > .copyright").messages, ["Uses a child selector with a rightmost class selector"]);
     test.done();
   },
 
-  "overly qualified selectors": function(test) {
+  "overly qualified selectors": function (test) {
     test.deepEqual(cssExplain("button#backButton").messages, ["ID is overly qualified by a tag name"]);
     test.deepEqual(cssExplain(".menu-left#newMenuIcon").messages, ["ID is overly qualified by a class name"]);
 
@@ -135,7 +137,7 @@ exports.messages = {
     test.done();
   },
 
-  "simple": function(test) {
+  "simple": function (test) {
     test.deepEqual(cssExplain("#footer").messages, []);
     test.deepEqual(cssExplain(".item").messages, []);
     test.deepEqual(cssExplain("li").messages, []);
@@ -145,7 +147,7 @@ exports.messages = {
 };
 
 exports.key = {
-  "id category selectors": function(test) {
+  "id category selectors": function (test) {
     test.equal(cssExplain("button#backButton").key, 'backButton');
     test.equal(cssExplain("#urlBar[type=\"autocomplete\"]").key, 'urlBar');
     test.equal(cssExplain("treeitem > treerow > treecell#myCell:active").key, 'myCell');
@@ -153,7 +155,7 @@ exports.key = {
     test.done();
   },
 
-  "class category selectors": function(test) {
+  "class category selectors": function (test) {
     test.equal(cssExplain("button.toolbarButton").key, 'toolbarButton');
     test.equal(cssExplain(".fancyText").key, 'fancyText');
     test.equal(cssExplain("menuitem > .menu-left[checked=\"true\"]").key, 'menu-left');
@@ -161,7 +163,7 @@ exports.key = {
     test.done();
   },
 
-  "tag category selectors": function(test) {
+  "tag category selectors": function (test) {
     test.equal(cssExplain("td").key, 'td');
     test.equal(cssExplain("treeitem > treerow").key, 'treerow');
     test.equal(cssExplain("input[type=\"checkbox\"]").key, 'input');
@@ -169,7 +171,7 @@ exports.key = {
     test.done();
   },
 
-  "universal category selectors": function(test) {
+  "universal category selectors": function (test) {
     test.equal(cssExplain("").key, '*');
     test.equal(cssExplain("[hidden=\"true\"]").key, '*');
     test.equal(cssExplain("*").key, '*');
@@ -180,7 +182,7 @@ exports.key = {
 };
 
 exports.category = {
-  "id category selectors": function(test) {
+  "id category selectors": function (test) {
     test.equal(cssExplain("button#backButton").category, 'id');
     test.equal(cssExplain("#urlBar[type=\"autocomplete\"]").category, 'id');
     test.equal(cssExplain("treeitem > treerow > treecell#myCell:active").category, 'id');
@@ -188,7 +190,7 @@ exports.category = {
     test.done();
   },
 
-  "class category selectors": function(test) {
+  "class category selectors": function (test) {
     test.equal(cssExplain("button.toolbarButton").category, 'class');
     test.equal(cssExplain(".fancyText").category, 'class');
     test.equal(cssExplain("menuitem > .menu-left[checked=\"true\"]").category, 'class');
@@ -196,7 +198,7 @@ exports.category = {
     test.done();
   },
 
-  "tag category selectors": function(test) {
+  "tag category selectors": function (test) {
     test.equal(cssExplain("td").category, 'tag');
     test.equal(cssExplain("treeitem > treerow").category, 'tag');
     test.equal(cssExplain("input[type=\"checkbox\"]").category, 'tag');
@@ -204,7 +206,7 @@ exports.category = {
     test.done();
   },
 
-  "universal category selectors": function(test) {
+  "universal category selectors": function (test) {
     test.equal(cssExplain("[hidden=\"true\"]").category, 'universal');
     test.equal(cssExplain("*").category, 'universal');
     test.equal(cssExplain("tree > [collapsed=\"true\"]").category, 'universal');
@@ -213,7 +215,7 @@ exports.category = {
   }
 };
 
-exports.specificity = function(test) {
+exports.specificity = function (test) {
   test.deepEqual(cssExplain("").specificity, [0, 0, 0]);
 
   test.deepEqual(cssExplain("*").specificity, [0, 0, 0]);
