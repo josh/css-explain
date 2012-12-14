@@ -38,7 +38,7 @@ See [W3C calcuating selector specificity](http://www.w3.org/TR/CSS21/cascade.htm
 
 Category index key selector falls under. Either `'id'`, `'class'`, `'tag'` or `'universal'`.
 
-Modeled after WebKit's rule set grouping optimizations. Rules are indexed are indexed and grouped in a hash table to avoid having to do a full test on the element being matched. So its better to have selectors fall under unique id or class indexes rather than under more broad indexes like tags. Selectors in the universal category will always have to be tested against every element.
+Modeled after WebKit's rule set grouping optimizations. CSS rules in WebKit are indexed and grouped in a hash table to avoid having to do a full test on the element being matched. So its better to have selectors fall under unique id or class indexes rather than under more broad indexes like tags. Selectors in the universal category will always have to be tested against every element.
 
 ``` json
 {
@@ -64,7 +64,7 @@ See [`RuleSet::addRule`](https://github.com/WebKit/webkit/blob/d674eba907a703e8b
 
 #### key
 
-Hash hash used for indexing under the category.
+Hash used for indexing under the category.
 
 #### score
 
