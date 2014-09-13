@@ -1,7 +1,7 @@
 body {
-  background-color: #333;
+  background-color: #ecf0f1;
   font-family: Helvetica, Arial, sans-serif;
-  color: #fafafa;
+  color: #2c3e50;
 }
 
 .container {
@@ -11,24 +11,16 @@ body {
 
 .logo {
   text-align: center;
-  color: #fff;
   font-family: Helvetica, Arial, sans-serif;
   font-size: 60px;
-  text-shadow: 0 2px 1px rgba(0, 0, 0, 0.5);
+  margin: 120px auto 40px;
 }
 
 .logo-inner {
   font-weight: 300;
-  color: #a3c84b;
-  font-family: Monaco;
-  padding: 5px 20px;
-  font-size: 54px;
-  background: rgba(0, 0, 0, 0.5);
-  text-transform: uppercase;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.9),
-               0 0 50px  rgba(224, 255, 80, 0.5),
-               0 0 20px  rgba(224, 255, 80, 0.3);
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
+  color: #e74c3c;
+  font: 300 italic 64px serif;
+  text-transform: lowercase;
   border-radius: 2px;
 }
 
@@ -115,11 +107,16 @@ meter::-webkit-meter-even-less-good-value {
   text-decoration: none;
 }
 
-.category {
-  color: #333;
+
+.header {
+  background: none;
+  opacity: 1;
+  padding-right: 5px;
+  font-size: 14px;
 }
-.category-active {
-  color: #fff;
+.header > a {
+  color: inherit;
+  text-decoration: none;
 }
 
 #messages {
