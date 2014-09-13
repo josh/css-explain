@@ -25,18 +25,19 @@ body {
 }
 
 .selector-input {
-  float: left;
   font-size: 24px;
   font-family: Helvetica, Arial, sans-serif;
   font-weight: 300;
   padding: 10px;
   width: 620px;
-  border: 1px solid #222;
+  border: 0;
   border-radius: 4px;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 2px 10px rgba(0, 0, 0, 0.4);
-  border-right: 0;
+  border: 1px solid transparent;
+}
+
+.selector-input:focus {
+  outline: 0;
+  border: 1px solid rgba(52, 152, 219, .6);
 }
 
 #results {
