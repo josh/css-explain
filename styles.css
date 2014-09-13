@@ -41,11 +41,10 @@ body {
 }
 
 #results {
-  width: 620px;
-  padding: 10px;
-  margin-top: 100px;
-  background: -webkit-linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.0));
+  padding: 20px 0;
+  margin-top: 20px;
   border-radius: 3px;
+  text-align: center;
 }
 
 .hidden {
@@ -89,23 +88,23 @@ meter::-webkit-meter-even-less-good-value {
 }
 
 .blocks {
-  margin-top: 2em;
   text-align: center;
-}
-.block {
   display: inline-block;
-  background: #000;
-  padding: 10px 25px;
-  color: #fff;
 }
 
-.block.header {
-  color: #fff;
-  background: none;
+.block {
+  display: inline-block;
+  background: rgba(0,0,0,0.1);
+  padding: 10px 15px;
+  border-radius: 3px;
 }
-.block.header > a {
-  color: #fff;
-  text-decoration: none;
+
+.category {
+  opacity: 0.3;
+}
+
+.category-active {
+  opacity: 1;
 }
 
 
