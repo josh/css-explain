@@ -92,11 +92,33 @@ meter::-webkit-meter-even-less-good-value {
   display: inline-block;
 }
 
+#specificity {
+  font-size: 14px;
+}
+
 .block {
   display: inline-block;
   background: rgba(0,0,0,0.1);
   padding: 10px 15px;
   border-radius: 3px;
+  font-size: 14px;
+  -webkit-transition: all 0.3s ease-in-out 0s;
+  transition: all 0.2s ease-in-out 0s;
+}
+
+.counter {
+  border-radius: 0;
+  margin-left: -2px;
+}
+
+.counter-first {
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.counter-last {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
 }
 
 .category {
