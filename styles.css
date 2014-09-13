@@ -85,6 +85,7 @@ meter::-webkit-meter-even-less-good-value {
   background: #e74c3c; /* Red */
   border-radius: 3px;
   -webkit-transition: all 0.3s ease-in-out 0s;
+  transition: all 0.3s ease-in-out 0s;
 }
 
 .blocks {
