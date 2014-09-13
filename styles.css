@@ -73,11 +73,10 @@ body {
   -moz-appearance: none;
   appearance: none;
   margin-bottom:  30px;
-}
-
-#score::-webkit-meter-bar {
   background: #bdc3c7;
 }
+
+#score::-webkit-meter-bar { background: #bdc3c7; }
 
 meter::-webkit-meter-optimum-value {
   background: #79cc2d; /* Green */
@@ -86,18 +85,36 @@ meter::-webkit-meter-optimum-value {
   transition: all 0.3s ease-in-out 0s;
 }
 
+:-moz-meter-optimum::-moz-meter-bar {
+  background: #79cc2d; /* Green */
+  border-radius: 3px;
+  -moz-transition: all 0.3s ease-in-out 0s;
+  transition: all 0.3s ease-in-out 0s;
+}
+
 meter::-webkit-meter-suboptimum-value {
   background: #f1c40f; /* Yellow */
   border-radius: 3px;
   -webkit-transition: all 0.3s ease-in-out 0s;
-  transition: all 0.3s ease-in-out 0s;
-    
+  transition: all 0.3s ease-in-out 0s;   
+}
+
+:-moz-meter-sub-optimum::-moz-meter-bar {
+  background: #f1c40f; /* Yellow */
+  border-radius: 3px;
+  transition: all 0.3s ease-in-out 0s;   
 }
 
 meter::-webkit-meter-even-less-good-value {
   background: #e74c3c; /* Red */
   border-radius: 3px;
   -webkit-transition: all 0.3s ease-in-out 0s;
+  transition: all 0.3s ease-in-out 0s;
+}
+
+:-moz-meter-sub-sub-optimum::-moz-meter-bar {
+  background: #e74c3c; /* Red */
+  border-radius: 3px;
   transition: all 0.3s ease-in-out 0s;
 }
 
@@ -178,4 +195,13 @@ meter::-webkit-meter-even-less-good-value {
   height: 2em;
   border: none;
   background-color: #ff0;
+}
+
+.meter-low {
+  -moz-appearance: none;
+  appearance: none;
+  background: #79cc2d; /* Green */
+  border-radius: 3px;
+  -webkit-transition: all 0.3s ease-in-out 0s;
+  transition: all 0.3s ease-in-out 0s;
 }
