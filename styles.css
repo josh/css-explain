@@ -152,19 +152,14 @@ meter::-webkit-meter-even-less-good-value {
   border-bottom-right-radius: 3px;
 }
 
-.category {
-  opacity: 0.3;
-}
+.category { opacity: 0.3; }
 
-.category-active {
-  opacity: 1;
-}
-
+.category-active { opacity: 1; }
 
 .header {
-  background: none;
-  opacity: 1;
+  display: inline-block;
   padding-right: 5px;
+  padding-left: 10px;
   font-size: 14px;
 }
 .header > a {
