@@ -35,8 +35,8 @@
     score.value = results.score;
     renderMeter(score);
 
-    $$('#categories .active')[0].className = 'block category';
-    $(results.category+'-category').className = 'block category active';
+    $$('#categories .category-active')[0].className = 'block category';
+    $(results.category+'-category').className = 'block category category-active';
 
     $('a-specificity').textContent = results.specificity[0];
     $('b-specificity').textContent = results.specificity[1];
