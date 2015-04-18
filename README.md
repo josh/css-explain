@@ -51,7 +51,7 @@ Modeled after WebKit's rule set grouping optimizations. CSS rules in WebKit are 
     "minibutton": [".minibutton"]
   },
   "tag": {
-    "a": ["ul.menu a", ".message a"]
+    "a": ["ul.menu a", ".message a"],
     "span": [".nav > span"]
   },
   "universal": ["*", "[input=text]"]
